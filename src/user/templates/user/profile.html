@@ -1,0 +1,30 @@
+
+{% load bootstrap4 %}
+{% block title %}
+    <title>Profile</title>
+    {% endblock title %}
+{% block content %}
+<div class="card" style="width: 18rem;">
+    <img src="{{ profile.image.url }}" class="card-img-top" alt="...">
+    <div class="card-body">
+      <h5 class="card-title">{{profile.user.first_name}} {{profile.user.last_name}}</h5>
+      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+      <a href="{% url 'profile-update' %}" class="btn btn-primary">Edit Info</a>
+      {% if user.is_superuser %}
+          <div>
+        <form method="POST" >
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4"> Update </legend>
+                {% bootstrap_form admin_form %}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info ml-2" type="submit"> change </button>
+            </div>
+        </form>
+    </div>
+      {% endif %}
+    </div>
+  </div>
+ 
+  {% endblock %}

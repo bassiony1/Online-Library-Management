@@ -1,0 +1,18 @@
+
+{% load bootstrap4 %}
+{% block content %}
+    <div>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4"> Update </legend>
+                {% bootstrap_form u_form %}
+                {% bootstrap_form p_form %}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info ml-2" type="submit">Update</button>
+            </div>
+        </form>
+    </div>
+    
+{% endblock %}
