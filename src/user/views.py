@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from user.forms import AdminForm, ProfileUpdateForm, UserUpdateForm , UserCreationForm , UserRegisterForm
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render , redirect
+from django.shortcuts import render , redirect , reverse
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from .models import Profile
@@ -18,8 +18,7 @@ def userRegisterForm(request):
             password = r_form.cleaned_data['password1']
             user = authenticate(username=username, password=password)
             login(request,user)
-        redirect('login')
-
+        return redirect('profile')
     else:
         r_form = UserRegisterForm()
         return render(request,'user/register.html',{'r_form':r_form})
@@ -63,7 +62,7 @@ def u_profile(request , id):
                 profile.user.is_admin = False
                 profile.user.save()
             admin_form.save()
-        return redirect('profile', id=id)
+        return redirect('u-profile', id=id)
     else:
         admin_form = AdminForm(instance=profile)
         return render(request , 'user/profile.html', {'profile': profile , 'admin_form': admin_form})
@@ -77,7 +76,7 @@ def profile_update(request):
             rprofile = p_form.save(commit=False)
             rprofile.user = request.user
             rprofile.save()
-        return redirect('profile', id =request.user.profile.id)
+        return redirect('profile')
     else:
         u_form = UserUpdateForm(instance=request.user)
         p_form = ProfileUpdateForm(instance=request.user.profile)
