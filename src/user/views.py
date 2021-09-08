@@ -1,10 +1,32 @@
 from django.contrib.auth.models import User
-from user.forms import AdminForm, ProfileUpdateForm, UserUpdateForm
+from user.forms import AdminForm, ProfileUpdateForm, UserUpdateForm , UserCreationForm , UserRegisterForm
 from django.shortcuts import render , redirect
 from django.http import HttpResponse
 from .models import Profile
 
+
 # Create your views here.
+def userRegisterForm(request):
+    if request.method == 'POST':
+        r_form = UserRegisterForm(request.POST)
+        if r_form.is_valid():
+            r_form.save()
+        redirect('login')
+
+    else:
+        r_form = UserRegisterForm()
+        return render(request,'user/register.html',{'r_form':r_form})
+
+
+
+
+
+
+
+
+
+
+
 def profile(request , id):
     profile = Profile.objects.get(id=id)
     if request.method == 'POST':
@@ -36,7 +58,7 @@ def profile_update(request):
             rprofile = p_form.save(commit=False)
             rprofile.user = request.user
             rprofile.save()
-        return redirect('profile')
+        return redirect('profile', id =request.user.profile.id)
     else:
         u_form = UserUpdateForm(instance=request.user)
         p_form = ProfileUpdateForm(instance=request.user.profile)
