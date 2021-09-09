@@ -1,0 +1,11 @@
+    <img src="{{book.cover.url}}" alt="">
+    <h1>Name : {{book.name}}</h1>
+    <h1>Description: {{book.description}}</h1>
+    <h1>Owned By :{{book.owner}}</h1>
+    <h1>Uploaded At :{{book.upload_date}}</h1>
+    <form action="" method="POST">
+        {% csrf_token %}
+        {{form}}
+        <button type="submit">borrow</button>
+    </form>
+    
