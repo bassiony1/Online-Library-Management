@@ -2,8 +2,8 @@
 
     <img src="{{book.cover.url}}" alt="">
     <h1><a href="{% url 'book-detail' book.pk %}">{{book.name}}</a></h1>
-    <h1>{{book.owner}}</h1>
-    <h1>{{book.upload_date}}</h1>
+    <h1><a href=" {% url 'u-profile' book.owner.profile.id %} ">{{book.owner}}</a></h1>
+    <h1>{{book.upload_date|date:"D, d M, Y"}}</h1>
     
 
 {% endfor %}

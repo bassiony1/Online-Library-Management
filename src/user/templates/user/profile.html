@@ -12,8 +12,8 @@
         {% if request.user == profile.user %}
             <a href="{% url 'profile-update' %}" class="btn btn-primary">Edit Info</a>
         {% endif %}
-      {% if user.is_superuser %}
-          <div>
+      {% if user.is_superuser and user != profile.user %}
+    <div>
         <form method="POST" >
             {% csrf_token %}
             <fieldset class="form-group">
@@ -25,8 +25,35 @@
             </div>
         </form>
     </div>
-      {% endif %}
+    {% endif %}
     </div>
   </div>
+  <br>
+  <h1>Borrowed Books </h1>
+    {% for book in borrowed_books %}
+    <div class="card" style="width: 18rem;">
+      <img src="{{ book.cover.url }}" class="card-img-top" alt="...">
+      <div class="card-body">
+      <h5 class="card-title"><a href="{% url 'book-detail' book.pk %}">{{book.name}}</a></h5>
+      <p class="card-text"> {{book.description}}</p>
+    </div>
+  </dir>
+    {% endfor %}
+    <br>
+  {% if user.is_superuser %}
+  <h1> Owned Books </h1>
+  {% for book in owned_by %}
+    <div class="card" style="width: 18rem;">
+      <img src="{{ book.cover.url }}" class="card-img-top" alt="...">
+      <div class="card-body">
+      <h5 class="card-title"><a href="{% url 'book-detail' book.pk %}">{{book.name}}</a></h5>
+      <p class="card-text"> {{book.description}}</p>
+    </div>
+  </dir>
+    {% endfor %}
+  
+  
+  {% endif %}
+  
  
   {% endblock %}

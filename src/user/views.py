@@ -5,6 +5,7 @@ from django.shortcuts import render , redirect , reverse
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from .models import Profile
+from books.models import book
 
 
 # Create your views here.
@@ -24,6 +25,8 @@ def userRegisterForm(request):
         return render(request,'user/register.html',{'r_form':r_form})
 @login_required
 def profile(request):
+    borrowed_books = book.objects.filter(borrowed_by=request.user)
+    owned_by = book.objects.filter(owner=request.user)
     profile = request.user.profile
     if request.method == 'POST':
         admin_form = AdminForm(request.POST , instance=profile)
@@ -43,10 +46,16 @@ def profile(request):
         return redirect('profile')
     else:
         admin_form = AdminForm(instance=profile)
-        return render(request , 'user/profile.html', {'profile': profile , 'admin_form': admin_form})
+        return render(request , 'user/profile.html',
+         {'profile': profile , 'admin_form': admin_form ,
+          'borrowed_books':borrowed_books ,
+          'owned_by':owned_by })
 @login_required
 def u_profile(request , id):
     profile = Profile.objects.get(id=id)
+    user= User.objects.get(profile= profile)
+    borrowed_books = book.objects.filter(borrowed_by=user)
+    owned_by = book.objects.filter(owner=user)
     if request.method == 'POST':
         admin_form = AdminForm(request.POST , instance=profile)
         if admin_form.is_valid():
@@ -65,7 +74,10 @@ def u_profile(request , id):
         return redirect('u-profile', id=id)
     else:
         admin_form = AdminForm(instance=profile)
-        return render(request , 'user/profile.html', {'profile': profile , 'admin_form': admin_form})
+        return render(request , 'user/profile.html',
+         {'profile': profile , 'admin_form': admin_form ,
+          'borrowed_books':borrowed_books ,
+          'owned_by':owned_by })
 @login_required
 def profile_update(request):
     if request.method == 'POST':
