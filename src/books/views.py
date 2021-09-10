@@ -1,9 +1,11 @@
 from django.db.models.deletion import SET_NULL
-from django.forms.widgets import NullBooleanSelect
 from books.forms import Borrow
 from django.shortcuts import render , redirect
 from .models import book
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin , UserPassesTestMixin
+from django.views.generic import (ListView , DetailView , CreateView , UpdateView , DeleteView)
+
 # Create your views here.
 @login_required
 def all_books(request):
@@ -37,3 +39,10 @@ def bookdetail(request,id):
             
         return render(request , 'books/book.html', {'book':d_book , 'form':Borrow(instance=d_book)})
     
+class AddBookView(LoginRequiredMixin , CreateView):
+    model = book
+    fields = ['name' , 'description' , 'cover']
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+
+        return super().form_valid(form)
