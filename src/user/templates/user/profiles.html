@@ -1,0 +1,23 @@
+{% block content %}
+
+    {% for profile in profiles %}
+    
+    <h1><a href=" {% url 'u-profile' profile.id %} "> {{profile.user.first_name}} {{profile.user.last_name}} </a></h1>
+    
+    
+    
+    
+    {% endfor %}
+
+
+
+
+
+{% endblock content %}
+
+
+
+
+
+
+

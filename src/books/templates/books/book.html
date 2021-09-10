@@ -1,4 +1,6 @@
    {% load bootstrap4 %}
+   {% block content %}
+   
     <img src="{{book.cover.url}}" alt="">
     <h1>Name : {{book.name}}</h1>
     <h1>Description: {{book.description}}</h1>
@@ -10,3 +12,4 @@
         <button type="submit">OK</button>
     </form>
     
+   {% endblock content %}

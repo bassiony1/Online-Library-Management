@@ -1,0 +1,19 @@
+
+{% block content %}
+    <div class='container'>
+    <div>
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Delete User </legend>
+                <h1>Are You Sure You Want To Delete {{user.first_name}} {{user.last_name}}'profile</h1>
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-danger" type="submit">Yes ,Delete</button>
+                <a class="btn btn-outline-info" href="{% url 'u-profile' user.profile.id %}">Cancel</a>
+            </div>
+
+        </form>
+    </div>
+</div>
+{% endblock content %}

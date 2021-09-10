@@ -1,11 +1,13 @@
 from django.contrib.auth.models import User
 from user.forms import AdminForm, ProfileUpdateForm, UserUpdateForm , UserCreationForm , UserRegisterForm
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required , user_passes_test
 from django.shortcuts import render , redirect , reverse
 from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponse
 from .models import Profile
 from books.models import book
+from django.contrib.auth.mixins import LoginRequiredMixin , UserPassesTestMixin
+from django.views.generic import (DeleteView)
 
 
 # Create your views here.
@@ -80,6 +82,7 @@ def u_profile(request , id):
           'owned_by':owned_by })
 @login_required
 def profile_update(request):
+
     if request.method == 'POST':
         u_form = UserUpdateForm( request.POST ,instance=request.user)
         p_form = ProfileUpdateForm(request.POST ,  request.FILES , instance=request.user.profile)
@@ -93,3 +96,16 @@ def profile_update(request):
         u_form = UserUpdateForm(instance=request.user)
         p_form = ProfileUpdateForm(instance=request.user.profile)
         return render(request , 'user/profile_update.html' , {'u_form' : u_form , 'p_form' : p_form})
+@user_passes_test(lambda u: u.is_superuser)
+def profile_delete(request , id):
+    profile = Profile.objects.get(id=id)
+    user = User.objects.get(profile=profile)
+    if request.method == 'POST':
+        user.delete()
+        return redirect('all-books')
+    else :
+        return render(request , 'user/delete_confirm.html' , {'user': user})
+@user_passes_test(lambda u: u.is_superuser)
+def profiles(request):
+    profiles = Profile.objects.all().order_by('is_admin')
+    return render(request, 'user/profiles.html' , {'profiles':profiles})
