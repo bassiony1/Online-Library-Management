@@ -5,13 +5,15 @@ from .models import book
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin , UserPassesTestMixin
 from django.views.generic import (  CreateView , UpdateView , DeleteView)
+from .filters import BookFilter
 
 # Create your views here.
 @login_required
 def all_books(request):
     books = book.objects.filter(borrowed=False).order_by('-upload_date')
-    
-    return render(request, 'books/home.html' , {'books' : books})
+    myfilter = BookFilter(request.GET , queryset=books)
+    books = myfilter.qs
+    return render(request, 'books/home.html' , {'books' : books , 'myfilter':myfilter})
     
 @login_required
 def bookdetail(request,id):
@@ -44,8 +46,9 @@ def bookdetail(request,id):
 @login_required
 def borrowed_books(request):
     books = book.objects.filter(borrowed=True).order_by('upload_date')
-
-    return render(request, 'books/borrowed_books.html', {'books':books})
+    myfilter = BookFilter(request.GET , queryset=books)
+    books = myfilter.qs
+    return render(request, 'books/borrowed_books.html', {'books':books , 'myfilter':myfilter})
 
 
 
