@@ -8,6 +8,7 @@ from .models import Profile
 from books.models import book
 from django.contrib.auth.mixins import LoginRequiredMixin , UserPassesTestMixin
 from django.views.generic import (DeleteView)
+from .filters import ProfilesFilter
 
 
 # Create your views here.
@@ -107,5 +108,7 @@ def profile_delete(request , id):
         return render(request , 'user/delete_confirm.html' , {'user': user})
 @user_passes_test(lambda u: u.is_superuser)
 def profiles(request):
-    profiles = Profile.objects.all().order_by('is_admin')
-    return render(request, 'user/profiles.html' , {'profiles':profiles})
+    users = User.objects.all().order_by('-is_superuser')
+    myfilter = ProfilesFilter(request.GET , queryset=users)
+    users = myfilter.qs
+    return render(request, 'user/profiles.html' , {'users':users , 'myfilter':myfilter })

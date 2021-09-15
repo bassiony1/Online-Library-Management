@@ -1,8 +1,18 @@
+{% load bootstrap4 %}
 {% block content %}
 
-    {% for profile in profiles %}
+     <form method="GET" >
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4"> Search </legend>
+                {% bootstrap_form myfilter.form %}
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-info" type="submit"> Search </button>
+            </div>
+        </form>
+    {% for user in users %}
     
-    <h1><a href=" {% url 'u-profile' profile.id %} "> {{profile.user.first_name}} {{profile.user.last_name}} </a></h1>
+    <h1><a href=" {% url 'u-profile' user.profile.id %} "> {{user.first_name}} {{user.last_name}} </a></h1>
     
     
     
