@@ -6,6 +6,7 @@
     <h1>Description: {{book.description}}</h1>
     <h1>Owned By :{{book.owner}}</h1>
     <h1>Uploaded At :{{book.upload_date|date:"D, d M, Y"}}</h1>
+    <h1>Borrowing Duration : {{book.borrowing_duration}}</h1>
     <form action="" method="POST">
         {% csrf_token %}
         {% bootstrap_form form %}

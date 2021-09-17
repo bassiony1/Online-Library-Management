@@ -6,11 +6,21 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.mixins import LoginRequiredMixin , UserPassesTestMixin
 from django.views.generic import (  CreateView , UpdateView , DeleteView)
 from .filters import BookFilter
+from datetime import datetime
+from django.utils import timezone
 
 # Create your views here.
 @login_required
 def all_books(request):
+    borrowed_books = book.objects.filter(borrowed=True)
+    for bookie in borrowed_books :
+        if bookie.return_date <= timezone.now() :
+            bookie.borrowed = False
+            bookie.borrowed_by = None
+            bookie.borrowed_date = None
+            bookie.save()
     books = book.objects.filter(borrowed=False).order_by('-upload_date')
+   
     myfilter = BookFilter(request.GET , queryset=books)
     books = myfilter.qs
     return render(request, 'books/home.html' , {'books' : books , 'myfilter':myfilter})
@@ -25,15 +35,19 @@ def bookdetail(request,id):
             if d_book.owner != request.user and is_borrowed :
                 my_form = borrowform.save(commit=False)
                 my_form.borrowed_by = request.user
+                d_book.borrowed_date = timezone.now()
+                d_book.save()
                 my_form.save()
             elif d_book.owner == request.user and is_borrowed==False:
                 my_form = borrowform.save(commit=False)
                 my_form.borrowed_by = None
+                d_book.borrowed_date = None
                 my_form.save()
             elif d_book.owner != request.user and is_borrowed==False:
                 print('We Got Here')
                 my_form = borrowform.save(commit=False)
                 my_form.borrowed_by = None
+                d_book.borrowed_date = None
                 my_form.save()
             
         return redirect('all-books')
@@ -45,7 +59,14 @@ def bookdetail(request,id):
 @user_passes_test(lambda u: u.is_superuser)
 @login_required
 def borrowed_books(request):
-    books = book.objects.filter(borrowed=True).order_by('upload_date')
+    books = book.objects.filter(borrowed=True)
+    for bookie in books :
+        if bookie.return_date <= timezone.now() :
+            bookie.borrowed = False
+            bookie.borrowed_by = None
+            bookie.borrowed_date = None
+            bookie.save()
+    books.order_by('upload_date')
     myfilter = BookFilter(request.GET , queryset=books)
     books = myfilter.qs
     return render(request, 'books/borrowed_books.html', {'books':books , 'myfilter':myfilter})
@@ -55,7 +76,7 @@ def borrowed_books(request):
 class AddBookView(LoginRequiredMixin , CreateView):
 
     model = book
-    fields = ['name' , 'description' , 'cover']
+    fields = ['name' , 'description' , 'cover' , 'borrowing_duration']
     def form_valid(self, form):
         form.instance.owner = self.request.user
 
@@ -64,7 +85,7 @@ class AddBookView(LoginRequiredMixin , CreateView):
 
 class UpdateBookView(LoginRequiredMixin ,UserPassesTestMixin, UpdateView):
     model = book
-    fields = ['name' , 'description' , 'cover']
+    fields = ['name' , 'description' , 'cover' , 'borrowing_duration']
     def form_valid(self, form):
         form.instance.owner = self.request.user
         return super().form_valid(form)

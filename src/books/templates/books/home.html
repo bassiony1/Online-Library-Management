@@ -15,7 +15,8 @@
     <img src="{{book.cover.url}}" alt="">
     <h1><a href="{% url 'book-detail' book.pk %}">{{book.name}}</a></h1>
     <h1><a href=" {% url 'u-profile' book.owner.profile.id %} ">{{book.owner}}</a></h1>
-    <h1>{{book.upload_date|date:"D, d M, Y"}}</h1>
+    <h1>Borrowing Duration : {{book.borrowing_duration}}</h1>
+    <h1>Uploaded at : {{book.upload_date|date:"D, d M, Y"}}</h1>
     
 {% endfor %}
 
