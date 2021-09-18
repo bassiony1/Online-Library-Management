@@ -7,4 +7,4 @@ class BookFilter(django_filters.FilterSet):
     description = django_filters.CharFilter(lookup_expr= 'icontains')
     class Meta:
         model = book
-        fields = ['name' , 'description']
+        fields = [ 'category' , 'name' , 'description']

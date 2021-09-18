@@ -8,7 +8,7 @@ from django.utils import timezone
 class book(models.Model):
     name = models.CharField(max_length=50)
     description = models.TextField(blank=True)
-    cover= models.ImageField(upload_to='book_covers' , default='default.jpg')
+    cover= models.ImageField(upload_to='book_covers' , default='default_book.jpg')
     owner = models.ForeignKey(User , on_delete=models.DO_NOTHING , related_name='book_owner')
     borrowed = models.BooleanField(default=False , verbose_name='borrow')
     borrowed_by = models.ForeignKey(User , on_delete=models.SET_NULL , related_name='book_borrowing' , blank=True , null=True)
@@ -16,10 +16,7 @@ class book(models.Model):
     borrowed_date = models.DateTimeField(default= None, null=True , blank=True)
     borrowing_duration = models.IntegerField(null=True , blank=True)
     return_date = models.DateTimeField(null=True)
-
-
-
-
+    category =models.ManyToManyField("Category")
 
     @property
     def return_date(self):
@@ -39,9 +36,15 @@ class book(models.Model):
         img = Image.open(self.cover.path)
 
         if img.height > 500  or img.width > 500 :
-            img.thumbnail((500,500))
+            img.thumbnail((720,480))
             img.save(self.cover.path)
 
     ## overriding the str
+    def __str__(self):
+        return self.name
+
+class Category(models.Model):
+    name = models.CharField(max_length=50)
+
     def __str__(self):
         return self.name

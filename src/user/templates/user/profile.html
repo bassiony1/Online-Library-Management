@@ -1,59 +1,114 @@
-
+{% extends 'base.html' %}
 {% load bootstrap4 %}
-{% block title %}
-    <title>Profile</title>
-    {% endblock title %}
 {% block content %}
-<div class="card" style="width: 18rem;">
-    <img src="{{ profile.image.url }}" class="card-img-top" alt="...">
-    <div class="card-body">
-      <h5 class="card-title">{{profile.user.first_name}} {{profile.user.last_name}}</h5>
-      <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-        {% if request.user == profile.user %}
-            <a href="{% url 'profile-update' %}" class="btn btn-primary">Edit Info</a>
-        {% endif %}
-      {% if user.is_superuser and user != profile.user %}
-    <div>
-        <form method="POST" >
-            {% csrf_token %}
-            <fieldset class="form-group">
-                <legend class="border-bottom mb-4"> Update </legend>
-                {% bootstrap_form admin_form %}
-            </fieldset>
-            <div class="form-group">
-                <button class="btn btn-outline-info ml-2" type="submit"> change </button>
-            </div>
-        </form>
-    </div>
-    {% endif %}
-    </div>
+
+<div id="main">
+	<div class="inner">
+						  <h1> {{profile.user.first_name}} {{profile.user.last_name}} <span class="pull-right"></span></h1>
+                  <div class="container-fluid">
+                      <div class="row">
+                          <div class="col-md-5">
+                            <img src="{{profile.image.url}}" class="img-fluid" alt="">
+                          </div>
+
+                          <div class="col-md-7">
+                              <p> Email : {{profile.user.email}}</p>
+                              <p> username : {{profile.user.username}}</p>
+                                            <p>
+                                                      {% if profile.user.is_superuser %}
+                                                      State : Admin 
+                                                      {% else %}
+                                                      State : Member 
+                                            
+                                                      {% endif %}
+                                            </p>
+
+                              <div class="row">
+                                        <div class="col-sm-6">
+                                            <div class="form-group">
+                                              <p>
+                                                        {% if request.user == profile.user %}
+                                                        <br>
+                                                        <a href="{% url 'profile-update' %}" class="btn btn-outline-info ml-2">Edit Info</a>
+                                                        {% else %}
+                                                            <a href=" {% url 'profile-delete' profile.id %}" class="btn btn-danger ml-2 mt-2"> Delete Profile </a>
+                                                        {% endif %}     
+                                              </p>
+                                            </div>
+                                        </div>
+                                              <div class="col-sm-4">
+                                                <form method="POST" >
+                                                      {% csrf_token %}
+                                                      <fieldset class="form-group">
+                                                          {% bootstrap_form admin_form %}
+                                                      </fieldset>
+                                                      <div class="form-group">
+                                                          <button class="btn btn-outline-info ml-2" type="submit"> change </button>
+                                                      </div>
+                                                </form>
+                                              </div>
+                              </div>
+                          </div>
+                                  </div>
+                          </div>
+                      <br>
+                      <br>
+                    {% if owned_by and user.is_superuser %}
+                      <div class="container-fluid">
+                          <h2 class="h2"> Books From {{profile.user}} </h2>
+                          <section class="tiles">
+                              {% for bookie in owned_by %}
+
+                                <article class="style{{forloop.counter}}">
+                                      <span class="image">
+                                            <img src="{{bookie.cover.url}}" alt="" />
+                                      </span>
+                                      <a href="{% url 'book-detail' bookie.pk %}">
+                                          <h2>{{bookie.name}}</h2>
+                                          <br>
+                                          <p><strong>Allowed For : {{bookie.borrowing_duration}}</strong></p>
+
+                                          <p>{{bookie.upload_date|date:"D, d M, Y"}} </p>
+                                      </a>
+                                  </article>
+                              <br>
+                              {% endfor %}
+                      
+                          </section>
+                      </div>
+                    {% endif %}
+        
+                    {% if borrowed_books %}
+                      <div class="container-fluid">
+
+                            <h2 class="h2"> Borrowed Books </h2>
+
+                          <!-- Products -->
+                          <section class="tiles">
+                                {% for bookie in borrowed_books %}
+
+                                  <article class="style{{forloop.counter}}">
+                                    <span class="image">
+                                      <img src="{{bookie.cover.url}}" alt="" />
+                                    </span>
+                                    <a href="{% url 'book-detail' bookie.pk %}">
+                                      <h2>{{bookie.name}}</h2>
+                                      <br>
+                                      <p><strong>Allowed For : {{bookie.borrowing_duration}}</strong></p>
+
+                                      <p>{{bookie.upload_date|date:"D, d M, Y"}} </p>
+                                    </a>
+                                  </article>
+                                  <br>
+                                {% endfor %}
+                      
+                            
+                          </section>
+                      
+                      </div>
+  
+                    {% endif %}
+	
   </div>
-  <br>
-  <h1>Borrowed Books </h1>
-    {% for book in borrowed_books %}
-    <div class="card" style="width: 18rem;">
-      <img src="{{ book.cover.url }}" class="card-img-top" alt="...">
-      <div class="card-body">
-      <h5 class="card-title"><a href="{% url 'book-detail' book.pk %}">{{book.name}}</a></h5>
-      <p class="card-text"> {{book.description}}</p>
-    </div>
-  </dir>
-    {% endfor %}
-    <br>
-  {% if user.is_superuser %}
-  <h1> Owned Books </h1>
-  {% for book in owned_by %}
-    <div class="card" style="width: 18rem;">
-      <img src="{{ book.cover.url }}" class="card-img-top" alt="...">
-      <div class="card-body">
-      <h5 class="card-title"><a href="{% url 'book-detail' book.pk %}">{{book.name}}</a></h5>
-      <p class="card-text"> {{book.description}}</p>
-    </div>
-  </dir>
-    {% endfor %}
-  
-  
-  {% endif %}
-  
- 
-  {% endblock %}
+</div>
+{% endblock content %}

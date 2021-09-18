@@ -11,7 +11,6 @@
 								<img src="{% static 'books/images/banner-image-6-1920x500.jpg' %}" class="img-fluid" alt="" />
 							</div>
                             <header id="inner">
-                            
                             <form method="GET" >
                                 <fieldset class="form-group">
                                     <legend class="border-bottom mb-4"> Search </legend>
@@ -33,9 +32,9 @@
 									<a href="{% url 'book-detail' book.pk %}">
 										<h2>{{book.name}}</h2>
 										<br>
-										<p><strong> {{book.remaining}} Days Left</strong></p>
+										<p><strong>Allowed For : {{book.borrowing_duration}}</strong></p>
 
-										<p>Due Date : {{book.return_date|date:"D, d M, Y"}} </p>
+										<p>{{book.upload_date|date:"D, d M, Y"}} </p>
 									</a>
 								</article>
 							<br>
@@ -46,16 +45,3 @@
          
             </div>
 {% endblock content %}
-{% for book in books %}
-
-    <img src="{{book.cover.url}}" alt="">
-    <h1>Book Name : <a href="{% url 'book-detail' book.pk %}">{{book.name}}</a></h1>
-    <h1>Owner :<a href=" {% url 'u-profile' book.owner.profile.id %} ">{{book.owner}}</a></h1>
-    <h1> Borrowed By : <a href=" {% url 'u-profile' book.borrowed_by.profile.id %} ">{{book.borrowed_by}}</a></h1>
-    <h1>Borrowing date : {{book.borrowed_date|date:"D, d M, Y"}}</h1>
-    <h1>Due Date : {{book.return_date|date:"D, d M, Y"}}</h1>
-    <h1> remaning days : {{book.remaining}} </h1>
-    
-{% endfor %}
-
-
