@@ -6,11 +6,11 @@
         <form method="POST" enctype=multipart/form-data >
             {% csrf_token %}
             <fieldset class="form-group">
-                <legend class="border-bottom mb-4"> ADD BOOK </legend>
+                <legend class="border-bottom mb-4"> Add/Update Post </legend>
                 {% bootstrap_form form %}
             </fieldset>
             <div class="form-group">
-                <button class="btn btn-outline-info" type="submit">ADD</button>
+                <button class="btn btn-outline-info" type="submit"> Post </button>
             </div>
 
         </form>

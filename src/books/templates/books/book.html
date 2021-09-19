@@ -20,11 +20,11 @@
                                              <p>  Due Date : {{book.return_date|date:"D, d M, Y"}}
                                                 <br>
                                                 remaning days : {{book.remaining}}</p> 
-    {% else %}
+											{% else %}
 
-    Borrowing Duration : {{book.borrowing_duration}}
+												Borrowing Duration : {{book.borrowing_duration}}
 
-    {% endif %}
+											{% endif %}
                                         </p>
 
 										<div class="row">
@@ -39,6 +39,9 @@
                                                     <strong>{{book.owner.first_name}} {{book.owner.last_name}}</strong> 
                                                     {% endif %}
                                                     </p>
+													{% if user.is_superuser %}
+													<a href="	{% url 'book-delete' book.id %} " class="btn btn-danger ml-4"> Delete </a>
+													{% endif %}
 							                  	</div>
 							                </div>
 
@@ -53,8 +56,11 @@
                                                             {% else %}
                                                                  <p><strong>Free To borrow</strong></p>  
                                                             {% endif %}
+															{% if user.is_superuser and user == book.owner %}
+															<a href=" {% url 'book-update' book.id %}	" class ="btn btn-outline-info mt-1" >Update</a>
+															{% endif %}
 								                      	</div>
-								                    </div>
+								                </div>
 
 								                    <div class="col-sm-4">
 							                      		<form action="" method="POST">
@@ -63,9 +69,12 @@
                                                                 <button type="submit">OK</button>
                                                                 </form>
 								                    </div>
-							                  	</div>
+													
+											</div>
 							                </div>
+											
 							            </div>
+										
 									</div>
 								</div>
 							</div>

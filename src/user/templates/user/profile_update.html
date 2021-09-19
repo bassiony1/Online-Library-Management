@@ -1,7 +1,7 @@
-
+{% extends 'base.html' %}
 {% load bootstrap4 %}
 {% block content %}
-    <div>
+    <div class="container">
         <form method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <fieldset class="form-group">
@@ -9,11 +9,12 @@
                 {% bootstrap_form u_form %}
                 {% bootstrap_form p_form %}
             </fieldset>
+            
             <div class="form-group">
-                <button class="btn btn-outline-info ml-2" type="submit">Update</button>
+                <button class="btn btn-danger " type="submit">Update</button>
             </div>
         </form>
-         <a href="{% url 'password-change' %}" class="btn btn-primary">Change Password</a>
+         <a href="{% url 'password-change' %}">Change Password</a>
     </div>
     
 {% endblock %}

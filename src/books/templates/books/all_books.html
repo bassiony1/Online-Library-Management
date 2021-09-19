@@ -5,11 +5,13 @@
        
         	<div id="main">
 						<div class="inner">
+						
 							<h1>Books</h1>
 
 							<div class="image main">
 								<img src="{% static 'books/images/banner-image-6-1920x500.jpg' %}" class="img-fluid" alt="" />
 							</div>
+							
                             <header id="inner">
                             <form method="GET" >
                                 <fieldset class="form-group">
@@ -24,6 +26,8 @@
 							<!-- Books -->
         
                       <section class="tiles">
+					  
+					  
             {% for book in books %}
 								<article class="style{{forloop.counter}}">
 									<span class="image">
@@ -40,8 +44,26 @@
 							<br>
             {% endfor %}
                 </section>
-
+					<div class='container'>
+                                {% if books.has_previous %}
+            <a class='btn btn-outline-info mb-4' href="?page=1"> << </a>
+            <a  class='btn btn-outline-info mb-4' href="?page={{ books.previous_page.number}}"> < </a>
+        {% endif %}
+        {% for num in books.paginator.page_range %}
+            {% if num == books.number %}
+            <a  class='btn btn-info mb-4' href="?page={{num}}">{{num}} </a>
+            {%elif num > books.number|add:'-2' and num < books.number|add:'2'%}
+                <a  class='btn btn-outline-info mb-4' href="?page={{num}}">{{num}} </a>
+            {% endif %}
+        {% endfor %}
+        {% if books.has_next %}
+            <a  class='btn btn-outline-info mb-4' href="?page={{ books.next_page.number}}"> > </a>
+            <a class='btn btn-outline-info mb-4' href="?page={{books.paginator.num_pages}}"> >> </a>
+        {% endif %}
+        </div>
                         </div>
+						
          
             </div>
+			
 {% endblock content %}

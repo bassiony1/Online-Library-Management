@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     #apps
     'user.apps.UserConfig',
     'books.apps.BooksConfig',
+    'blog.apps.BlogConfig' ,
     #packages
     'bootstrap4',
     'django_filters',

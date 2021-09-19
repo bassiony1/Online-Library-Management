@@ -1,6 +1,9 @@
-   <h1>You Are Logged Out</h1>
- <div class="border-top pt-3" >
+{% extends 'base.html' %}
+{% block content %}
+ <div class="container" >
+    <legend class="border-bottom mb-4"> You are Logged out </legend>
         <small class="text-muted" >
-            <a class="ml-2" href="{% url 'login' %}" >login Again</a>
+            <a class="btn btn-primary" href="{% url 'login' %}" >   login  </a>
         </small>
     </div>
+{% endblock content %}

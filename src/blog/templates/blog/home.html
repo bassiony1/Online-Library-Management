@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load bootstrap4 %}
+{% load static %}
+{% block content %}
+
+<div id="main">
+						<div class="inner">
+                        
+							<h1>Blog</h1>
+
+							<div class="image main">
+								<img src="{% static 'books/images/banner-image-6-1920x500.jpg' %}" class="img-fluid" alt="" />
+								<a href="	{% url 'post-create' %} " class="btn btn-danger  mt-2"> Add </a>
+                            </div>
+							
+							<div class="container-fluid">
+                            
+								<div class="row">
+									<div class="col-9">
+										<div class="row">
+                                        {% for post in posts %}
+											<div class="col-sm-6 text-center">
+												<img src="{{post.image.url}}" class="img-fluid" alt="" />
+
+												<h2 class="m-n"><a href="{% url 'post-detail' post.pk %}">
+                                                {{post.title}}</a></h2>
+
+												<p> 
+                                                
+                                                {% if user.is_superuser %}
+
+                                                   <a href="{% url 'u-profile' post.author.profile.id %}">
+                                                   {{post.author.first_name}} {{post.author.last_name}} </a> 
+                                                {% else %}
+                                                    {{post.author.first_name}} {{post.author.last_name}}
+                                                {% endif %}
+                                                
+                                                &nbsp;|&nbsp; {{post.date|date:"D, d M, Y"}}</p>
+											</div>
+                                        {% endfor %}
+
+										</div>
+									</div>
+
+									<div class="col-3">
+										<div class="form-group">
+				                            <h4>Blog Search</h4>
+				                        </div>
+                                        <form method="GET" >
+										<div class="form-group">
+				                            <div class="input-group">
+				                                {% bootstrap_form myfilter.form %}
+                                                
+				                            </div>
+                                            <button class="btn btn-outline-info" type="submit"> Search </button>
+				                        </div>
+                                        </form>
+									</div>
+                                    
+								</div>
+                    <div class='container'>
+                                {% if posts.has_previous %}
+            <a class='btn btn-outline-info mb-4' href="?page=1"> << </a>
+            <a  class='btn btn-outline-info mb-4' href="?page={{ posts.previous_page.number}}"> < </a>
+        {% endif %}
+        {% for num in posts.paginator.page_range %}
+            {% if num == posts.number %}
+            <a  class='btn btn-info mb-4' href="?page={{num}}">{{num}} </a>
+            {%elif num > posts.number|add:'-2' and num < posts.number|add:'2'%}
+                <a  class='btn btn-outline-info mb-4' href="?page={{num}}">{{num}} </a>
+            {% endif %}
+        {% endfor %}
+        {% if posts.has_next %}
+            <a  class='btn btn-outline-info mb-4' href="?page={{ posts.next_page.number}}"> > </a>
+            <a class='btn btn-outline-info mb-4' href="?page={{posts.paginator.num_pages}}"> >> </a>
+        {% endif %}
+        </div>
+							</div>
+                            
+						</div>
+                         
+					</div>
+                    
+       
+
+        
+
+{% endblock content %}

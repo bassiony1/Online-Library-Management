@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from django.db.models.deletion import SET_NULL
 from books.forms import Borrow
 from django.shortcuts import render , redirect
@@ -8,7 +9,7 @@ from django.views.generic import (  CreateView , UpdateView , DeleteView)
 from .filters import BookFilter
 from datetime import datetime
 from django.utils import timezone
-
+from blog.models import post
 # Create your views here.
 @login_required
 def home (request):
@@ -20,8 +21,9 @@ def home (request):
             bookie.borrowed_date = None
             bookie.save()
     books = book.objects.filter(borrowed=False).order_by('-upload_date')[:6]
+    posts = post.objects.all().order_by('-date')[:3]
     
-    return render(request, 'books/home.html' , {'books' : books })
+    return render(request, 'books/home.html' , {'books' : books , 'posts':posts })
 
 
 
@@ -41,7 +43,10 @@ def all_books(request):
    
     myfilter = BookFilter(request.GET , queryset=books)
     books = myfilter.qs
-    return render(request, 'books/all_books.html' , {'books' : books , 'myfilter':myfilter})
+    paginator = Paginator(books , 6)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'books/all_books.html' , {'books' : page_obj , 'myfilter':myfilter})
     
 @login_required
 def bookdetail(request,id):

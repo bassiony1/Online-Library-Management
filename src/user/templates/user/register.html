@@ -1,13 +1,7 @@
+{% extends 'base.html' %}
 {% load bootstrap4 %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
+{% block content %}
+<div class="container">
    <form method="POST">
             {% csrf_token %}
             <fieldset class="form-group">
@@ -19,7 +13,6 @@
             </div>
 
         </form>
-    </div>
      <div class="border-top pt-3" >
         <small class="text-muted" > Have An Account ?
             <a class="ml-2" href="{% url 'login' %}" >
@@ -27,5 +20,6 @@
             </a>
         </small>
     </div>
-</body>
-</html>
+    </div>
+
+{% endblock content %}

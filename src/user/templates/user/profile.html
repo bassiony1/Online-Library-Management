@@ -94,7 +94,7 @@
                                     <a href="{% url 'book-detail' bookie.pk %}">
                                       <h2>{{bookie.name}}</h2>
                                       <br>
-                                      <p><strong>Allowed For : {{bookie.borrowing_duration}}</strong></p>
+                                      <p><strong>{{bookie.remaining}} Days Left</strong></p>
 
                                       <p>{{bookie.upload_date|date:"D, d M, Y"}} </p>
                                     </a>

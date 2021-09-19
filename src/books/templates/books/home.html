@@ -52,7 +52,78 @@
                                 {% endfor %}
                                     </section>
                     <p class="text-center"><a href="{% url 'all-books' %}">More Books &nbsp;<i class="fa fa-long-arrow-right"></i></a></p>
+					<br>
+
+							 <h2 class="h2">Blog</h2>
+							<div class="row">
+							{% for post in posts %}
+								<div class="col-sm-4 text-center">
+									<img src="{{post.image.url}}" class="img-fluid" alt="" />
+
+									<h2 class="m-n"><a href=" {% url 'post-detail' post.pk %} ">{{post.title}}</a></h2>
+
+									<p> 
+                                                
+                                                {% if user.is_superuser %}
+
+                                                   <a href="{% url 'u-profile' post.author.profile.id %}">
+                                                   {{post.author.first_name}} {{post.author.last_name}} </a> 
+                                                {% else %}
+                                                    {{post.author.first_name}} {{post.author.last_name}}
+                                                {% endif %}
+                                                
+                                                &nbsp;|&nbsp; {{post.date|date:"D, d M, Y"}}</p>
+								</div>
+
+							{% endfor %}
+							</div>
+
+							<p class="text-center"><a href=" {% url 'blog-home' %} ">Read More &nbsp;<i class="fa fa-long-arrow-right"></i></a></p>
+
+							
             </div>
-         
+			
     </div>
 {% endblock content %}
+{% block footer %}
+	<section>
+								<h2>Contact Us</h2>
+								<form method="post" action="#">
+									<div class="fields">
+										<div class="field half">
+											<input type="text" name="name" id="name" placeholder="Name" />
+										</div>
+
+										<div class="field half">
+											<input type="text" name="email" id="email" placeholder="Email" />
+										</div>
+
+										<div class="field">
+											<input type="text" name="subject" id="subject" placeholder="Subject" />
+										</div>
+
+										<div class="field">
+											<textarea name="message" id="message" rows="3" placeholder="Notes"></textarea>
+										</div>
+
+										<div class="field text-right">
+											<label>&nbsp;</label>
+
+											<ul class="actions">
+												<li><input type="submit" value="Send Message" class="primary" /></li>
+											</ul>
+										</div>
+									</div>
+								</form>
+							</section>
+							<section>
+								<h2>Contact Info</h2>
+
+								<ul class="alt">
+									<li><span class="fa fa-envelope-o"></span> <a href="#">beso.beso2468@Gmail.com</a></li>
+									<li><span class="fa fa-phone"></span> +0201154096403 </li>
+									<li><span class="fa fa-map-pin"></span> El-Mahallah El-kobra , Egypt</li>
+								</ul>
+							</section>
+{% endblock footer %}
+
