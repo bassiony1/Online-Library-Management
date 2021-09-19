@@ -97,6 +97,13 @@ def borrowed_books(request):
     return render(request, 'books/borrowed_books.html', {'books':books , 'myfilter':myfilter})
 
 
+def terms(request):
+
+    return render(request , 'books/terms.html')
+
+def contact_us(request):
+
+    return render(request , 'books/contact_us.html')
 
 class AddBookView(LoginRequiredMixin , CreateView):
 
