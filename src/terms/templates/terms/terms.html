@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} 
+<title> Terms </title>
+{% endblock title %}
+{% block content %}
+<div id="main">
+						<div class="inner">
+							<h1>Terms</h1>
+
+							<div class="image main">
+								<img src="{% static 'books/images/banner-image-5-1920x500.jpg' %}" class="img-fluid" alt="" />
+								{% if user.is_superuser %}
+                                <a href="	{% url 'term-create' %} " class="btn btn-danger  mt-2"> Add Term </a>
+                                {% endif %}
+							</div>
+							{% for term in all_terms %}
+							{% if user.is_superuser %}
+							<a href=" {% url 'term-detail' term.pk %}">
+							<h2 class="m-n"> {{forloop.counter}}- {{term.title}}</h2>
+							</a>
+							{% else %}
+							<h2 class="m-n"> {{forloop.counter}}- {{term.title}}</h2>
+							{% endif %}
+
+							<p	class = 'ml-3'>{{term.description}}</p>
+							{% endfor %}
+						</div>
+					</div>
+						<div class='container'>
+                                {% if all_terms.has_previous %}
+            <a class='btn btn-outline-info mb-4' href="?page=1"> << </a>
+            <a  class='btn btn-outline-info mb-4' href="?page={{ all_terms.previous_page.number}}"> < </a>
+        {% endif %}
+        {% for num in all_terms.paginator.page_range %}
+            {% if num == all_terms.number %}
+            <a  class='btn btn-info mb-4' href="?page={{num}}">{{num}} </a>
+            {%elif num > all_terms.number|add:'-2' and num < all_terms.number|add:'2'%}
+                <a  class='btn btn-outline-info mb-4' href="?page={{num}}">{{num}} </a>
+            {% endif %}
+        {% endfor %}
+        {% if all_terms.has_next %}
+            <a  class='btn btn-outline-info mb-4' href="?page={{ all_terms.next_page.number}}"> > </a>
+            <a class='btn btn-outline-info mb-4' href="?page={{all_terms.paginator.num_pages}}"> >> </a>
+        {% endif %}
+        </div>
+{% endblock content %}

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load bootstrap4 %}
 {% block title %} 
-<title> Add/Update Book </title>
+<title> Add/Update Term </title>
 {% endblock title %}
 {% block content %}
     <div class='container'>
@@ -9,7 +9,7 @@
         <form method="POST" enctype=multipart/form-data >
             {% csrf_token %}
             <fieldset class="form-group">
-                <legend class="border-bottom mb-4"> Add/Update Book </legend>
+                <legend class="border-bottom mb-4"> Add/Update Term </legend>
                 {% bootstrap_form form %}
             </fieldset>
             <div class="form-group">

@@ -7,7 +7,7 @@ from django.views.generic import (ListView , DetailView , CreateView , UpdateVie
 from .filters import PostFilter
 from django.core.paginator import Paginator
 # Create your views here.
-
+@login_required
 def post_list(request):
     posts = post.objects.all().order_by('-date')
     myfilter = PostFilter(request.GET , queryset=posts)
@@ -16,8 +16,6 @@ def post_list(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(request , 'blog/home.html', {'posts':page_obj , 'myfilter':myfilter })
-
-
 
 
 class PostDetailView(LoginRequiredMixin,DetailView):

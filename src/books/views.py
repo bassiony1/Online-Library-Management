@@ -58,6 +58,7 @@ def owner_books(request , id):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(request , 'books/owner_books.html' ,  {'o_books':page_obj , 'owner':owner})
+
 @login_required
 def bookdetail(request,id):
     d_book = book.objects.get(id=id)
@@ -112,9 +113,7 @@ def borrowed_books(request):
     return render(request, 'books/borrowed_books.html', {'books':page_obj , 'myfilter':myfilter})
 
 
-def terms(request):
 
-    return render(request , 'books/terms.html')
 
 def contact_us(request):
 

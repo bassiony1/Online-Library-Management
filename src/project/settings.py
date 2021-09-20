@@ -41,6 +41,7 @@ INSTALLED_APPS = [
 
     #apps
     'user.apps.UserConfig',
+    'terms.apps.TermsConfig',
     'books.apps.BooksConfig',
     'blog.apps.BlogConfig' ,
     #packages
