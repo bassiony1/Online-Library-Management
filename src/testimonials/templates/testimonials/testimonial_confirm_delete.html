@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %} 
+<title> Confirmation </title>
+{% endblock title %}
+{% block content %}
+    <div class='container'>
+    <div>
+        <form method="POST">
+            {% csrf_token %}
+            <fieldset class="form-group">
+                <legend class="border-bottom mb-4">Delete Testimonial </legend>
+                <h1>Are You Sure You Want To Delete This Testimonial </h1>
+            </fieldset>
+            <div class="form-group">
+                <button class="btn btn-outline-danger" type="submit">Yes ,Delete</button>
+                <a class="btn btn-outline-info" href="{% url 'testimonials-detail' object.id %}">Cancel</a>
+            </div>
+
+        </form>
+    </div>
+</div>
+{% endblock content %}

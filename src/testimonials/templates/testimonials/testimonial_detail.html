@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load bootstrap4 %}
+{% block title %} 
+<title> Testmonials </title>
+{% endblock title %}
+{% block content %}
+
+<div id="main">
+						<div class="inner">
+							<h1 class="m-n" >  Testimonial </h1>
+
+							<div class="image main">
+								<img src="{% static 'books/images/banner-image-5-1920x500.jpg' %}" class="img-fluid" alt="" />
+								{% if user == testimonial.writer%}
+                                <a href="	{% url 'testimonials-update' testimonial.pk %} " class="btn btn-danger  mt-2"> Update Testimonial </a>
+                                {% endif %}
+                                {% if user.is_superuser %}
+                                <a href="	{% url 'testimonials-delete' testimonial.id %} " class="btn btn-danger  mt-2"> Delete Testimonial </a>
+                                {% endif %}
+							</div>
+							<h4 class="m-n" > At : {{testimonial.date |date:"D, d M, Y"}} By : <span> {{testimonial.writer.first_name}} {{testimonial.writer.last_name}} </span> </h4>
+                            <br>
+                            <br>
+							<p	class = 'ml-3'>{{testimonial.content}}</p>
+                            
+                                            {% if user.is_superuser %}
+                                            <div class="col-sm-2">
+                                                <form method="POST" >
+                                                      {% csrf_token %}
+                                                      <fieldset class="form-group">
+                                                          {% bootstrap_form fav_form %}
+                                                      </fieldset>
+                                                      <div class="form-group">
+                                                          <button class="btn btn-outline-info ml-2" type="submit"> change </button>
+                                                      </div>
+                                                </form>
+                                              </div>
+                                              {% endif %}
+						</div>
+					</div>
+
+
+
+
+{% endblock content %}

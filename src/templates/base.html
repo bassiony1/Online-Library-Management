@@ -53,7 +53,7 @@
 								<ul>
 									<li><a href=" {% url 'about-us' %}	">About Us</a></li>
 									<li><a href=" {% url 'blog-home' %} ">Blog</a></li>
-									<li><a href="testimonials.html">Testimonials</a></li>
+									<li><a href=" {% url 'testimonials' %}	">Testimonials</a></li>
 									<li><a href="{% url 'terms' %}">Terms</a></li>
 								</ul>
 							</li>
@@ -63,7 +63,7 @@
 							{% else %}
 
 								<li><a href=" {% url 'login' %}"> Login </a></li>
-								<li><a href="testimonials.html">Testimonials</a></li>
+								<li><a href="{% url 'testimonials' %}">Testimonials</a></li>
 								<li><a href=" {% url 'about-us' %}	">About Us</a></li>
 									<li><a href=" {% url 'terms' %}	">Terms</a></li>
 									<li><a href="{% url 'contact-us' %}">Contact Us</a></li>
