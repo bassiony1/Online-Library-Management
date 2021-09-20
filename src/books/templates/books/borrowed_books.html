@@ -1,11 +1,14 @@
 {%extends "base.html"%}
 {% load static %}
 {% load bootstrap4 %}
+{% block title %} 
+<title> Borrowed </title>
+{% endblock title %}
 {% block content %}
        
         	<div id="main">
 						<div class="inner">
-							<h1>Books</h1>
+							<h1>Borrowed Books</h1>
 
 							<div class="image main">
 								<img src="{% static 'books/images/banner-image-6-1920x500.jpg' %}" class="img-fluid" alt="" />
@@ -34,8 +37,13 @@
 										<h2>{{book.name}}</h2>
 										<br>
 										<p><strong> {{book.remaining}} Days Left</strong></p>
-
-										<p>Due Date : {{book.return_date|date:"D, d M, Y"}} </p>
+                                        
+                                          
+										<p>
+                                        Borrowed by : {{book.borrowed_by.first_name}} {{book.borrowed_by.last_name}}
+                                        <br>
+                                        Due Date : {{book.return_date|date:"D, d M, Y"}} 
+                                        </p>
 									</a>
 								</article>
 							<br>

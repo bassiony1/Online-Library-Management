@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator
 from user.forms import AdminForm, ProfileUpdateForm, UserUpdateForm , UserCreationForm , UserRegisterForm
 from django.contrib.auth.decorators import login_required , user_passes_test
 from django.shortcuts import render , redirect , reverse
@@ -111,4 +112,7 @@ def profiles(request):
     users = User.objects.all().order_by('-is_superuser')
     myfilter = ProfilesFilter(request.GET , queryset=users)
     users = myfilter.qs
-    return render(request, 'user/profiles.html' , {'users':users , 'myfilter':myfilter })
+    paginator = Paginator(users , 6)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'user/profiles.html' , {'users':page_obj , 'myfilter':myfilter })

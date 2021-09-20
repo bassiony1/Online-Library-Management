@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.core.paginator import Paginator
 from django.db.models.deletion import SET_NULL
 from books.forms import Borrow
@@ -47,7 +48,16 @@ def all_books(request):
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
     return render(request, 'books/all_books.html' , {'books' : page_obj , 'myfilter':myfilter})
-    
+
+
+@login_required
+def owner_books(request , id):
+    owner = User.objects.get(id=id)
+    o_books = book.objects.filter(owner=owner,borrowed=False).order_by('-upload_date')
+    paginator = Paginator(o_books , 6)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request , 'books/owner_books.html' ,  {'o_books':page_obj , 'owner':owner})
 @login_required
 def bookdetail(request,id):
     d_book = book.objects.get(id=id)
@@ -76,9 +86,11 @@ def bookdetail(request,id):
             
         return redirect('all-books')
     else :
-            
+        paginator = Paginator(u_books , 3)
+        page_number = request.GET.get('page')
+        U_page_obj = paginator.get_page(page_number)  
         return render(request , 'books/book.html', {'book':d_book , 'form':Borrow(instance=d_book) , 
-       'u_books' : u_books , 'c_books' : c_books})
+       'u_books' : U_page_obj , 'c_books' : c_books})
 
 
 @user_passes_test(lambda u: u.is_superuser)
@@ -94,7 +106,10 @@ def borrowed_books(request):
     books.order_by('upload_date')
     myfilter = BookFilter(request.GET , queryset=books)
     books = myfilter.qs
-    return render(request, 'books/borrowed_books.html', {'books':books , 'myfilter':myfilter})
+    paginator = Paginator(books , 6)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+    return render(request, 'books/borrowed_books.html', {'books':page_obj , 'myfilter':myfilter})
 
 
 def terms(request):
@@ -104,6 +119,9 @@ def terms(request):
 def contact_us(request):
 
     return render(request , 'books/contact_us.html')
+def about_us(request):
+
+    return render(request , 'books/about_us.html')
 
 class AddBookView(LoginRequiredMixin , CreateView):
 

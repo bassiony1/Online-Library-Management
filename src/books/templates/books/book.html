@@ -1,5 +1,8 @@
     {% extends 'base.html' %}
    {% load bootstrap4 %}
+   {% block title %} 
+<title> {{book.name}} </title>
+{% endblock title %}
    {% block content %}
    
     <div id="main">
@@ -83,7 +86,7 @@
 							<br>
                             {% if u_books %}
                     <div class="container-fluid">
-								<h2 class="h2"> Books From {{book.owner}} </h2>
+								<h2 class="h2"> Books From {{book.owner.first_name}} {{book.owner.last_name}} </h2>
 
 								<!-- Products -->
 								<section class="tiles">
@@ -106,6 +109,8 @@
             {% endfor %}
 						
 								</section>
+                    <p class="text-center"><a href="{% url 'owner-books' book.owner.id %}">More Books From {{book.owner.first_name}} {{book.owner.last_name}} &nbsp;<i class="fa fa-long-arrow-right"></i></a></p>
+								
 							</div>
                             {% endif %}
             <div class="container-fluid">
@@ -133,7 +138,9 @@
 						
 									
 								</section>
+								
 							</div>
+
 						</div>
 					</div>
 

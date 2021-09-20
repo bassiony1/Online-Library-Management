@@ -44,14 +44,14 @@
 								{% if user.is_superuser %}
 									<li><a href=" {% url 'borrowed-books' %} ">Borrowed Books </a></li>
 									<li><a href=" {% url 'profiles' %} "> Profiles </a></li>
-									<li><a href=" {% url 'logout' %}"> Logout	</a></li>
 								{% endif %}
+									<li><a href=" {% url 'logout' %}"> Logout	</a></li>
 
 							<li>
 								<a href="#" class="dropdown-toggle">About</a>
 
 								<ul>
-									<li><a href="about.html">About Us</a></li>
+									<li><a href=" {% url 'about-us' %}	">About Us</a></li>
 									<li><a href=" {% url 'blog-home' %} ">Blog</a></li>
 									<li><a href="testimonials.html">Testimonials</a></li>
 									<li><a href="{% url 'terms' %}">Terms</a></li>
@@ -61,8 +61,10 @@
 							<li><a href=" {% url 'contact-us' %} ">Contact Us</a></li>
 						</ul>
 							{% else %}
+
 								<li><a href=" {% url 'login' %}"> Login </a></li>
 								<li><a href="testimonials.html">Testimonials</a></li>
+								<li><a href=" {% url 'about-us' %}	">About Us</a></li>
 									<li><a href=" {% url 'terms' %}	">Terms</a></li>
 									<li><a href="{% url 'contact-us' %}">Contact Us</a></li>
 								{% endif %}

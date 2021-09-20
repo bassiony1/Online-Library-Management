@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 {% load bootstrap4 %}
+{% block title %} 
+<title> Profile </title>
+{% endblock title %}
 {% block content %}
 
 <div id="main">
@@ -17,6 +20,10 @@
                                             <p>
                                                       {% if profile.user.is_superuser %}
                                                       State : Admin 
+                                                      <br>
+                                                       <p>
+                                                       Joined At : {{profile.user.date_joined}}
+                                                       </p> 
                                                       {% else %}
                                                       State : Member 
                                             
@@ -36,6 +43,7 @@
                                               </p>
                                             </div>
                                         </div>
+                                            {% if user.is_superuser and user != profile.user %}
                                               <div class="col-sm-4">
                                                 <form method="POST" >
                                                       {% csrf_token %}
@@ -47,6 +55,7 @@
                                                       </div>
                                                 </form>
                                               </div>
+                                            {% endif %}
                               </div>
                           </div>
                                   </div>

@@ -1,6 +1,9 @@
 {%extends "base.html"%}
 {% load static %}
 {% load bootstrap4 %}
+{% block title %} 
+<title> Books </title>
+{% endblock title %}
 {% block content %}
        
         	<div id="main">
@@ -10,6 +13,9 @@
 
 							<div class="image main">
 								<img src="{% static 'books/images/banner-image-6-1920x500.jpg' %}" class="img-fluid" alt="" />
+                                {% if user.is_superuser %}
+                                <a href="	{% url 'book-add' %} " class="btn btn-danger  mt-2"> Add Book </a>
+                                {% endif %}
 							</div>
 							
                             <header id="inner">

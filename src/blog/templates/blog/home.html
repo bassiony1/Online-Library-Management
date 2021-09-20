@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% load bootstrap4 %}
 {% load static %}
+{% block title %} 
+<title> Blog Home </title>
+{% endblock title %}
 {% block content %}
 
 <div id="main">
@@ -10,7 +13,7 @@
 
 							<div class="image main">
 								<img src="{% static 'books/images/banner-image-6-1920x500.jpg' %}" class="img-fluid" alt="" />
-								<a href="	{% url 'post-create' %} " class="btn btn-danger  mt-2"> Add </a>
+								<a href="	{% url 'post-create' %} " class="btn btn-danger  mt-2"> Add Post </a>
                             </div>
 							
 							<div class="container-fluid">

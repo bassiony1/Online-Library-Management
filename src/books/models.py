@@ -10,6 +10,7 @@ class book(models.Model):
     description = models.TextField(blank=True)
     cover= models.ImageField(upload_to='book_covers' , default='default_book.jpg')
     owner = models.ForeignKey(User , on_delete=models.DO_NOTHING , related_name='book_owner')
+    book_url = models.FileField(upload_to='books',null=True , blank=True)
     borrowed = models.BooleanField(default=False , verbose_name='borrow')
     borrowed_by = models.ForeignKey(User , on_delete=models.SET_NULL , related_name='book_borrowing' , blank=True , null=True)
     upload_date = models.DateTimeField(auto_now_add=True)

@@ -1,23 +1,80 @@
+{% extends 'base.html' %}
 {% load bootstrap4 %}
+{% load static %}
+{% block title %} 
+<title> All Profiles </title>
+{% endblock title %}
 {% block content %}
 
-     <form method="GET" >
-            <fieldset class="form-group">
-                <legend class="border-bottom mb-4"> Search </legend>
-                {% bootstrap_form myfilter.form %}
-            </fieldset>
-            <div class="form-group">
-                <button class="btn btn-outline-info" type="submit"> Search </button>
+         	<div id="main">
+						<div class="inner">
+						
+							<h1>Books</h1>
+
+							<div class="image main">
+								<img src="{% static 'books/images/banner-image-6-1920x500.jpg' %}" class="img-fluid" alt="" />
+							</div>
+							
+                            <header id="inner">
+                            <form method="GET" >
+                                <fieldset class="form-group">
+                                    <legend class="border-bottom mb-4"> Search </legend>
+                                            {% bootstrap_form myfilter.form %}
+                                </fieldset>
+                                    <div class="form-group">
+                                        <button class="btn btn-outline-info" type="submit"> Search </button>
+                                    </div>
+                            </form>
+							</header>
+							<!-- Books -->
+        
+                      <section class="tiles">
+					  
+					  
+            {% for user in users %}
+								<article class="style{{forloop.counter}}">
+									<span class="image">
+										<img src="{{user.profile.image.url}}"  alt="" />
+									</span>
+									<a href="{% url 'u-profile' user.profile.id %}">
+										<h2>  {{user.first_name}} {{user.last_name}}</h2>
+										<p><strong> 
+                                        {% if user.is_superuser %}
+                                        State : Admin
+                                        {% else %}
+                                        State : Member
+                                        {% endif %}
+                                        </strong></p>
+										<p>Joined At : {{user.date_joined|date:"D, d M, Y"}} </p>
+                                        <br>
+                                        <br>
+                                        <br>
+									</a>
+								</article>
+            {% endfor %}
+                </section>
+					<div class='container'>
+                                {% if users.has_previous %}
+            <a class='btn btn-outline-info mb-4' href="?page=1"> << </a>
+            <a  class='btn btn-outline-info mb-4' href="?page={{ users.previous_page.number}}"> < </a>
+        {% endif %}
+        {% for num in users.paginator.page_range %}
+            {% if num == users.number %}
+            <a  class='btn btn-info mb-4' href="?page={{num}}">{{num}} </a>
+            {%elif num > users.number|add:'-2' and num < users.number|add:'2'%}
+                <a  class='btn btn-outline-info mb-4' href="?page={{num}}">{{num}} </a>
+            {% endif %}
+        {% endfor %}
+        {% if users.has_next %}
+            <a  class='btn btn-outline-info mb-4' href="?page={{ users.next_page.number}}"> > </a>
+            <a class='btn btn-outline-info mb-4' href="?page={{users.paginator.num_pages}}"> >> </a>
+        {% endif %}
+        </div>
+                        </div>
+						
+         
             </div>
-        </form>
-    {% for user in users %}
-    
-    <h1><a href=" {% url 'u-profile' user.profile.id %} "> {{user.first_name}} {{user.last_name}} </a></h1>
-    
-    
-    
-    
-    {% endfor %}
+			    
 
 
 

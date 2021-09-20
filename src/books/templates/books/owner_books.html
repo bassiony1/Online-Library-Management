@@ -1,0 +1,63 @@
+{%extends "base.html"%}
+{% load static %}
+{% load bootstrap4 %}
+{% block title %} 
+<title> Books </title>
+{% endblock title %}
+{% block content %}
+       
+        	<div id="main">
+						<div class="inner">
+						
+							<h1>Books From {{owner.first_name}} {{owner.last_name}}</h1>
+
+							<div class="image main">
+								<img src="{% static 'books/images/banner-image-6-1920x500.jpg' %}" class="img-fluid" alt="" />
+                                
+							</div>
+							
+                           
+							<!-- Books -->
+        
+                      <section class="tiles">
+					  
+					  
+            {% for book in o_books %}
+								<article class="style{{forloop.counter}}">
+									<span class="image">
+										<img src="{{book.cover.url}}" alt="" />
+									</span>
+									<a href="{% url 'book-detail' book.pk %}">
+										<h2>{{book.name}}</h2>
+										<br>
+										<p><strong>Allowed For : {{book.borrowing_duration}}</strong></p>
+
+										<p>{{book.upload_date|date:"D, d M, Y"}} </p>
+									</a>
+								</article>
+							<br>
+            {% endfor %}
+                </section>
+					<div class='container'>
+                                {% if o_books.has_previous %}
+            <a class='btn btn-outline-info mb-4' href="?page=1"> << </a>
+            <a  class='btn btn-outline-info mb-4' href="?page={{ o_books.previous_page.number}}"> < </a>
+        {% endif %}
+        {% for num in o_books.paginator.page_range %}
+            {% if num == o_books.number %}
+            <a  class='btn btn-info mb-4' href="?page={{num}}">{{num}} </a>
+            {%elif num > o_books.number|add:'-2' and num < o_books.number|add:'2'%}
+                <a  class='btn btn-outline-info mb-4' href="?page={{num}}">{{num}} </a>
+            {% endif %}
+        {% endfor %}
+        {% if o_books.has_next %}
+            <a  class='btn btn-outline-info mb-4' href="?page={{ o_books.next_page.number}}"> > </a>
+            <a class='btn btn-outline-info mb-4' href="?page={{o_books.paginator.num_pages}}"> >> </a>
+        {% endif %}
+        </div>
+                        </div>
+						
+         
+            </div>
+			
+{% endblock content %}
