@@ -22,7 +22,10 @@ def allterms(request):
 
 class TermCreateView(LoginRequiredMixin,UserPassesTestMixin ,CreateView):
     model = terms
-    fields = ALL_FIELDS
+    fields = ['title' , 'description' , 'number']
+    def form_valid(self, form):
+        form.instance.writer = self.request.user
+        return super().form_valid(form)
     def test_func(self):
         if self.request.user.is_superuser :
             return True
@@ -32,7 +35,6 @@ class TermDetailView(LoginRequiredMixin,UserPassesTestMixin , DetailView):
     context_object_name = 'term'
     def form_valid(self, form):
         form.instance.writer = self.request.user
-
         return super().form_valid(form)
     def test_func(self):
         if self.request.user.is_superuser :

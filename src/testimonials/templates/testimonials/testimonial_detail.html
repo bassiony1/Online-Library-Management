@@ -12,10 +12,10 @@
 
 							<div class="image main">
 								<img src="{% static 'books/images/banner-image-5-1920x500.jpg' %}" class="img-fluid" alt="" />
-								{% if user == testimonial.writer%}
+								{% if user == testimonial.writer %}
                                 <a href="	{% url 'testimonials-update' testimonial.pk %} " class="btn btn-danger  mt-2"> Update Testimonial </a>
                                 {% endif %}
-                                {% if user.is_superuser %}
+                                {% if user.is_superuser or user == testimonial.writer  %}
                                 <a href="	{% url 'testimonials-delete' testimonial.id %} " class="btn btn-danger  mt-2"> Delete Testimonial </a>
                                 {% endif %}
 							</div>

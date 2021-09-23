@@ -12,6 +12,6 @@ urlpatterns = [
     path('<int:pk>/update', book_views.UpdateBookView.as_view(), name='book-update'),
     path('<int:pk>/delete', book_views.DeleteBookView.as_view(), name='book-delete'),
     path('create/',book_views.AddBookView.as_view(), name='book-add') ,
-
+    
 
 ]

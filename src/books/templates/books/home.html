@@ -15,7 +15,7 @@
 						  </ol>
 						    <div class="carousel-inner">
 						        <div class="carousel-item active">
-						            <img class="d-block w-100" src="{% static 'books/images/slider-image-1-1920x700.jpg' %}" alt="First slide">
+						            <img class="d-block w-100" src="{% static 'books/images/slider-image-2-1920x700.jpg' %}" alt="First slide">
 						         </div>
                             </div>
 						    <div class="carousel-item">
@@ -37,6 +37,11 @@
 						<br>
 						<br>
             <div class="inner">
+			<header id="inner">
+								<h3>A wise Man once Said :</h1>
+								
+								<blockquote>{{quote}} </blockquote>
+							</header>
                             <h2 class="h2"> Recent Featured Books </h2>
                             <br>
                                     <section class="tiles">
@@ -56,11 +61,44 @@
                                     </section>
                     <p class="text-center"><a href="{% url 'all-books' %}">More Books &nbsp;<i class="fa fa-long-arrow-right"></i></a></p>
 					<br>
+					{% if testimonials %}
+					<h2 class="h2">Testimonials</h2>
+							
+							<div class="row">
+							{% for testimonial in testimonials %}
+								<div class="col-sm-6 text-center">
+                                {% if user.is_superuser or user == testimonial.writer %}
+									<a href=" {% url 'testimonials-detail' testimonial.id %} ">
+                                    <p class="m-n"><em> 
+                                    {{testimonial.content}} 
+                                    </em></p>
+                                    </a>
+                                    {% else %}
+                                     <p class="m-n"><em> 
+                                    {{testimonial.content}} 
+                                    </em></p>
+                                {% endif %}
+                                    {% if user.is_superuser %}
+									<a href=" {% url 'u-profile' testimonial.writer.profile.id %}  ">
+                                    <p><strong> - {{testimonial.writer.first_name}} {{testimonial.writer.last_name}}</strong></p>
+                                    </a>
+                                    {% else %}
+                                    <p><strong> - {{testimonial.writer.first_name}} {{testimonial.writer.last_name}}</strong></p>
 
+                                    {% endif %}
+                                    
+								</div>
+							{% endfor %}
+							</div>
+							<p class="text-center"><a href=" {% url 'testimonials' %} ">Read More &nbsp;<i class="fa fa-long-arrow-right"></i></a></p>
+
+							<br>
+					{% endif %}
 							 <h2 class="h2"> The Blog</h2>
 							 <h3>Recent Featured Posts </h3>
 							 
 							<div class="row">
+							
 							{% for post in posts %}
 								<div class="col-sm-4 text-center">
 									<img src="{{post.image.url}}" class="img-fluid" alt="" />
@@ -89,6 +127,7 @@
             </div>
 			
     </div>
+	
 {% endblock content %}
 {% block footer %}
 	<section>

@@ -38,14 +38,7 @@
 									</span>
 									<a href="{% url 'u-profile' user.profile.id %}">
 										<h2>  {{user.first_name}} {{user.last_name}}</h2>
-										<p><strong> 
-                                        {% if user.is_superuser %}
-                                        State : Admin
-                                        {% else %}
-                                        State : Member
-                                        {% endif %}
-                                        </strong></p>
-										<p>Joined At : {{user.date_joined|date:"D, d M, Y"}} </p>
+										
                                         <br>
                                         <br>
                                         <br>

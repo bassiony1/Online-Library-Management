@@ -10,11 +10,11 @@
 
 							<div class="image main">
 								<img src="{% static 'books/images/banner-image-5-1920x500.jpg' %}" class="img-fluid" alt="" />
-								{% if user.is_superuser and user == term.writer%}
+								{% if user.is_superuser and user == term.writer %}
                                 <a href="	{% url 'term-update' term.pk %} " class="btn btn-danger  mt-2"> Update Term </a>
                                 {% endif %}
 								{% if user.is_superuser %}
-                                <a href="	{% url 'term-delete' term.pk %} " class="btn btn-danger  mt-2"> Delete Term </a>
+                                <a href="{% url 'term-delete' term.pk %} " class="btn btn-danger  mt-2"> Delete Term </a>
 								{% endif %}
 							</div>
 							<h2 class="m-n" > {{term.number}}-{{term.title}}</h2>

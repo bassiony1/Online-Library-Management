@@ -7,7 +7,7 @@
 <div id="main">
             <div class="inner">
                     <h1>Contact Us</h1>
-                    <span class="image main"><img src="{% static 'books/images/map.jpg' %}" alt="" /></span>
+                    <span class="image main"><img src="{% static 'books/images/map.png' %}" alt="" /></span>
                     <p>
                         Address : El-Mahallah Elkubra , Egypt 
                     </p>
@@ -19,15 +19,9 @@
 	<section>
 								<h2>Contact Us</h2>
 								<form method="post" action="#">
+									{% csrf_token %}
 									<div class="fields">
-										<div class="field half">
-											<input type="text" name="name" id="name" placeholder="Name" />
-										</div>
-
-										<div class="field half">
-											<input type="text" name="email" id="email" placeholder="Email" />
-										</div>
-
+										
 										<div class="field">
 											<input type="text" name="subject" id="subject" placeholder="Subject" />
 										</div>
