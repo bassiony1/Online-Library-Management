@@ -101,7 +101,7 @@
 							
 							{% for post in posts %}
 								<div class="col-sm-4 text-center">
-									<img src="{{post.image.url}}" class="img-fluid" alt="" />
+									<img src="{% static images|random %}" class="img-fluid" alt="" />
 
 									<h2 class="m-n"><a href=" {% url 'post-detail' post.pk %} ">{{post.title}}</a></h2>
 
@@ -130,7 +130,7 @@
 	
 {% endblock content %}
 {% block footer %}
-	<section>
+	{% comment %} <section>
 								<h2>Contact Us</h2>
 								<form method="post" action="#">
 									<div class="fields">
@@ -159,8 +159,8 @@
 										</div>
 									</div>
 								</form>
-							</section>
-							<section>
+							</section> {% endcomment %}
+							{% comment %} <section>
 								<h2>Contact Info</h2>
 
 								<ul class="alt">
@@ -168,6 +168,6 @@
 									<li><span class="fa fa-phone"></span> +0201154096403 </li>
 									<li><span class="fa fa-map-pin"></span> El-Mahallah El-kobra , Egypt</li>
 								</ul>
-							</section>
+							</section> {% endcomment %}
 {% endblock footer %}
 

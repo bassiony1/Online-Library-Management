@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.fields import BooleanField
 from django.shortcuts import reverse
 from PIL import Image
 # Create your models here.
@@ -8,6 +9,7 @@ class post(models.Model):
     content = models.TextField()
     image= models.ImageField(upload_to='blog_images' , default='default_book.jpg')
     date = models.DateTimeField(auto_now_add=True)
+    spoiled = models.BooleanField(default=False)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):

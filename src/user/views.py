@@ -30,7 +30,7 @@ def userRegisterForm(request):
 @login_required
 def profile(request):
     borrowed_books = book.objects.filter(borrowed_by=request.user)
-    owned_by = book.objects.filter(owner=request.user)
+    owned_by = book.objects.filter(owner=request.user)[:3]
     profile = request.user.profile
     if request.method == 'POST':
         admin_form = AdminForm(request.POST , instance=profile)

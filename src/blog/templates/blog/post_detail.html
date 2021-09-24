@@ -23,7 +23,14 @@
 								{% endif %}
 							<h5> By : {{post.author.first_name}} {{post.author.last_name}} </h5>
 							</div>
-							<p>{{post.content}}</p>
+
+							<p>
+							{% if post.spoiled %}
+							<p>	<strong> Spolier  Alert </strong>	</p>
+							<br>
+							{% endif %}
+							{{post.content}}
+							</p>
 						</div>
 					</div>
 

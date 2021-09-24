@@ -23,7 +23,7 @@
 										<div class="row">
                                         {% for post in posts %}
 											<div class="col-sm-6 text-center">
-												<img src="{{post.image.url}}" class="img-fluid" alt="" />
+												<img src=" {% static images|random %} " class="img-fluid" alt="" />
 
 												<h2 class="m-n"><a href="{% url 'post-detail' post.pk %}">
                                                 {{post.title}}</a></h2>

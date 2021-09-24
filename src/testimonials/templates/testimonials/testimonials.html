@@ -32,7 +32,7 @@
                                     {{testimonial.content}} 
                                     </em></p>
                                 {% endif %}
-                                    {% if user.is_superuser %}
+                                    {% if user.is_superuser or user == testimonial.writer %}
 									<a href=" {% url 'u-profile' testimonial.writer.profile.id %}  ">
                                     <p><strong> - {{testimonial.writer.first_name}} {{testimonial.writer.last_name}}</strong></p>
                                     </a>

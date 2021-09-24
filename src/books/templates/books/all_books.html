@@ -53,7 +53,7 @@
 					<div class='container'>
                                 {% if books.has_previous %}
             <a class='btn btn-outline-info mb-4' href="?page=1"> << </a>
-            <a  class='btn btn-outline-info mb-4' href="?page={{ books.previous_page.number}}"> < </a>
+            {% comment %} <a  class='btn btn-outline-info mb-4' href="?page={{ books.previous_page.number}}"> < </a> {% endcomment %}
         {% endif %}
         {% for num in books.paginator.page_range %}
             {% if num == books.number %}
@@ -63,7 +63,7 @@
             {% endif %}
         {% endfor %}
         {% if books.has_next %}
-            <a  class='btn btn-outline-info mb-4' href="?page={{ books.next_page.number}}"> > </a>
+            {% comment %} <a  class='btn btn-outline-info mb-4' href="?page={{ books.next_page.number}}"> > </a> {% endcomment %}
             <a class='btn btn-outline-info mb-4' href="?page={{books.paginator.num_pages}}"> >> </a>
         {% endif %}
         </div>

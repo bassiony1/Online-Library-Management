@@ -20,6 +20,12 @@ from django.conf import settings
 # Create your views here.
 @login_required
 def home (request):
+    images = ['books/images/blog-1-720x480.jpg',
+               'books/images/blog-2-720x480.jpg',
+               'books/images/blog-3-720x480.jpg',
+               'books/images/blog-4-720x480.jpg',
+               'books/images/blog-5-720x480.jpg',
+               'books/images/blog-6-720x480.jpg']
     quotes = ['Only Those Who Risk Going Too Far Can Possibly Find out How Far one Can Go !',
                    'Life is But A Dream ' , 
                    "No matter Who You Think you are , you don't Really Know What kindna Man you've Become Until You Reach The very End , One realizes one's True Nature At The Time of Death" ,
@@ -32,7 +38,7 @@ def home (request):
                     "EverythingShip" ,
                     "For Some Reason Recalling The Past always takes a strangely dark turn",
                     "Sometimes The Things You fall into by Chance turn out to be The most important once of all as long as you go into it with a tiny bit of wonder",
-                    "if you spend too much time staring at the top , you'll have the rug pulled out from under you" ]
+                    "if you spend too much time starring at the top , you'll have the rug pulled out from under you" ]
 
     quote = choice(quotes)
     borrowed_books = book.objects.filter(borrowed=True)
@@ -46,7 +52,9 @@ def home (request):
     posts = post.objects.all().order_by('-date')[:3]
     testimonials = testimonial.objects.filter(fav=True)[:2]
     
-    return render(request, 'books/home.html' , {'books' : books , 'posts':posts  , 'quote': quote , 'testimonials':testimonials})
+    return render(request, 'books/home.html' , {'books' : books , 'posts':posts  ,
+     'quote': quote , 'testimonials':testimonials ,
+     'images':images})
 
 
 
@@ -75,7 +83,10 @@ def all_books(request):
 @login_required
 def owner_books(request , id):
     owner = User.objects.get(id=id)
-    o_books = book.objects.filter(owner=owner,borrowed=False).order_by('-upload_date')
+    if request.user.is_superuser :
+        o_books = book.objects.filter(owner=owner).order_by('-upload_date')
+    else :
+        o_books = book.objects.filter(owner=owner,borrowed=False).order_by('-upload_date')
     paginator = Paginator(o_books , 6)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
