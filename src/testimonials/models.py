@@ -6,7 +6,7 @@ class testimonial(models.Model):
     content = models.TextField()
     fav = models.BooleanField(default=False)
     date = models.DateTimeField(auto_now=True)
-    writer = models.ForeignKey(User, on_delete=models.DO_NOTHING , null=True)
+    writer = models.ForeignKey(User, on_delete=models.CASCADE)
 
 
         
